@@ -22,39 +22,17 @@ int main(int argc, char *argv[]) {
 
     int offset = 0;
 
-    int32_t fromPartID;
-    auto size = pread(fd, reinterpret_cast<char*>(&fromPartID), sizeof(int32_t), offset);
-    if (size != sizeof(int32_t)) {
-        std::cout << "read from part id failed." << std::endl;
-        close(fd);
-        return -1;
-    }
-
-    offset += sizeof(int32_t);
     int64_t lastRecvLogId;
-    size = pread(fd, reinterpret_cast<char*>(&lastRecvLogId), sizeof(int64_t), offset);
+    auto size = pread(fd, reinterpret_cast<char*>(&lastRecvLogId), sizeof(int64_t), offset);
     if (size != sizeof(int64_t)) {
-        std::cout << "read last recv logId failed from part " << fromPartID  << std::endl;
+        std::cout << "read last recv logId failed from part " << std::endl;
         close(fd);
         return -1;
     }
-
-
-    offset += sizeof(int64_t);
-    int64_t lastRecvLogTerm;
-    size = pread(fd, reinterpret_cast<char*>(&lastRecvLogTerm), sizeof(int64_t), offset);
-    if (size != sizeof(int64_t)) {
-        std::cout << "read last recv log term failed from part "<< fromPartID  << std::endl;
-        close(fd);
-        return -1;
-    }
-    offset += sizeof(int64_t);
 
     close(fd);
 
-    std::cout << "from part Id " << fromPartID << std::endl;
     std::cout << "last recv log id " << lastRecvLogId << std::endl;
-    std::cout << "last recv log term " << lastRecvLogTerm << std::endl;
 
     return 0;
 }

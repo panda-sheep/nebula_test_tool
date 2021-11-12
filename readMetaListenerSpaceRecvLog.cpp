@@ -30,21 +30,8 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
-
-    offset += sizeof(int64_t);
-    int64_t lastApplyLogTerm;
-    size = pread(fd, reinterpret_cast<char*>(&lastApplyLogTerm), sizeof(int64_t), offset);
-    if (size != sizeof(int64_t)) {
-        std::cout << "read last apply log term failed " << std::endl;
-        close(fd);
-        return -1;
-    }
-    offset += sizeof(int64_t);
-
     close(fd);
 
     std::cout << "last apply log id " << lastApplyLogId << std::endl;
-    std::cout << "last apply log term " << lastApplyLogTerm << std::endl;
-
     return 0;
 }

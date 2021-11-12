@@ -22,39 +22,17 @@ int main(int argc, char *argv[]) {
 
     int offset = 0;
 
-    int32_t fromPartID;
-    auto size = pread(fd, reinterpret_cast<char*>(&fromPartID), sizeof(int32_t), offset);
-    if (size != sizeof(int32_t)) {
-        std::cout << "read from part id failed." << std::endl;
-        close(fd);
-        return -1;
-    }
-
-    offset += sizeof(int32_t);
     int64_t lastSendLogId;
-    size = pread(fd, reinterpret_cast<char*>(&lastSendLogId), sizeof(int64_t), offset);
+    auto size = pread(fd, reinterpret_cast<char*>(&lastSendLogId), sizeof(int64_t), offset);
     if (size != sizeof(int64_t)) {
-        std::cout << "read last send logId failed from part " << fromPartID  << std::endl;
+        std::cout << "read last send logId failed from part " << std::endl;
         close(fd);
         return -1;
     }
-
-
-    offset += sizeof(int64_t);
-    int64_t lastSendLogTerm;
-    size = pread(fd, reinterpret_cast<char*>(&lastSendLogTerm), sizeof(int64_t), offset);
-    if (size != sizeof(int64_t)) {
-        std::cout << "read last send log term failed from part "<< fromPartID  << std::endl;
-        close(fd);
-        return -1;
-    }
-    offset += sizeof(int64_t);
 
     close(fd);
 
-    std::cout << "from part Id " << fromPartID << std::endl;
     std::cout << "last send log id " << lastSendLogId << std::endl;
-    std::cout << "last send log term " << lastSendLogTerm << std::endl;
 
     return 0;
 }
