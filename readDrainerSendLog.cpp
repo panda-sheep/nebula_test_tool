@@ -4,8 +4,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-
-// use to read send log file in nebula wal
+/**
+ * @brief use to read send log file in drainer nebula wal
+ * Only output lastSendLogId
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
        std::cout << "usage: xxx sendLogFile" << std::endl;

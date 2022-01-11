@@ -4,8 +4,16 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-
-// use to read storage listener space last_apply_log in nebula wal
+/**
+ * @brief use to read storage listener space last_apply_log in nebula wal or meta listener global last_apply_log
+ * Only output lastCommitLogId
+ *             lastCommitLogTerm
+ *             lastApplyLogId
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
        std::cout << "usage: xxx last_apply_log" << std::endl;

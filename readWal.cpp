@@ -4,7 +4,19 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-// use to read first log in nebula wal
+/**
+ * @brief use to read first log in nebula wal and and returns the total number of records.
+ * The format of the output is as follows:
+ * first log Id 1
+ * first log term 0
+ * first log msglen 45
+ * first log cluster 0
+ * total wal log nums 6
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
        std::cout << "usage: xxx walfile" << std::endl;

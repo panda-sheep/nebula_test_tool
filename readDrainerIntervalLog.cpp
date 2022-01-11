@@ -14,31 +14,31 @@
  */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
-       std::cout << "usage: xxx recvLogFile" << std::endl;
+       std::cout << "usage: xxx inteervalLogFile" << std::endl;
        return 1;
     }
 
-    auto recvLogFile = argv[1];
+    auto intervalLogFile = argv[1];
 
-    int32_t fd = open(recvLogFile, O_RDONLY);
+    int32_t fd = open(intervalLogFile, O_RDONLY);
     if (fd < 0) {
-        std::cout << "open file " << recvLogFile << " failed." << std::endl;
+        std::cout << "open file " << intervalLogFile << " failed." << std::endl;
         return -1;
     }
 
     int offset = 0;
 
-    int64_t lastRecvLogId;
-    auto size = pread(fd, reinterpret_cast<char*>(&lastRecvLogId), sizeof(int64_t), offset);
+    int64_t inteervalLogId;
+    auto size = pread(fd, reinterpret_cast<char*>(&inteervalLogId), sizeof(int64_t), offset);
     if (size != sizeof(int64_t)) {
-        std::cout << "read last recv logId failed from part " << std::endl;
+        std::cout << "read inter logId failed from part " << std::endl;
         close(fd);
         return -1;
     }
 
     close(fd);
 
-    std::cout << "last recv log id " << lastRecvLogId << std::endl;
+    std::cout << "last interval log id " << inteervalLogId  << std::endl;
 
     return 0;
 }

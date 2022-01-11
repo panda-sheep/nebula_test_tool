@@ -4,8 +4,14 @@
 #include <fcntl.h>
 #include <unistd.h>
 
-
-// use to read meta listener space last_apply_log in nebula wal
+/**
+ * @brief use to read meta listener space last_apply_log in nebula wal
+ * Only output lastApplyLogId
+ *
+ * @param argc
+ * @param argv
+ * @return int
+ */
 int main(int argc, char *argv[]) {
     if (argc != 2) {
        std::cout << "usage: xxx last_apply_log" << std::endl;
