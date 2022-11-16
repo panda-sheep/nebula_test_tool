@@ -44,6 +44,8 @@ int main(int argc, char *argv[]) {
     bool fistlog = true;
     int count = 0;
 
+    int noheartbeatCount = 0;
+
     while (offset < fileSize) {
         int64_t firstLogID;
         auto size = pread(fd, reinterpret_cast<char*>(&firstLogID), sizeof(int64_t), offset);
@@ -83,6 +85,9 @@ int main(int argc, char *argv[]) {
 
         // logMsg
         offset += head;
+        if (head != 0) {
+            noheartbeatCount++;
+        }
 
         int32_t foot;
         size = pread(fd, reinterpret_cast<char*>(&foot), sizeof(int32_t), offset);
@@ -105,6 +110,7 @@ int main(int argc, char *argv[]) {
     close(fd);
 
     std::cout << "total wal log nums " << count << std::endl;
+    std::cout << "total wal log nums(noheartbeat) " << noheartbeatCount << std::endl;
 
     return 0;
 }

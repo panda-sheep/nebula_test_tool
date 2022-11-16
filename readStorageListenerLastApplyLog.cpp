@@ -9,6 +9,7 @@
  * Only output lastCommitLogId
  *             lastCommitLogTerm
  *             lastApplyLogId
+ *             lastApplyLogTime
  *
  * @param argc
  * @param argv
@@ -56,11 +57,20 @@ int main(int argc, char *argv[]) {
     }
     offset += sizeof(int64_t);
 
+    int64_t lastApplyLogTime;
+    size = pread(fd, reinterpret_cast<char*>(&lastApplyLogTime), sizeof(int64_t), offset);
+    if (size != sizeof(int64_t)) {
+        std::cout << "read last apply logTime failed " << std::endl;
+        close(fd);
+        return -1;
+    }
+
     close(fd);
 
     std::cout << "last commit log id " << lastCommitLogId << std::endl;
     std::cout << "last commit log term " << lastCommitLogTerm << std::endl;
     std::cout << "last apply log id " << lastApplyLogId << std::endl;
+    std::cout << "last apply log time " << lastApplyLogTime << std::endl;
 
     return 0;
 }

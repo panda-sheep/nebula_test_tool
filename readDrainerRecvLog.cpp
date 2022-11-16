@@ -6,7 +6,8 @@
 
 /**
  * @brief use to read recv log file in drainer nebula wal
- * Only output lastRecvLogId
+ * output lastRecvLogId
+ *        lastRecvLog
  *
  * @param argc
  * @param argv
@@ -35,10 +36,20 @@ int main(int argc, char *argv[]) {
         close(fd);
         return -1;
     }
+    offset += sizeof(int64_t);
+
+    int64_t lastRecvLogTime;
+    size = pread(fd, reinterpret_cast<char*>(&lastRecvLogTime), sizeof(int64_t), offset);
+    if (size != sizeof(int64_t)) {
+        std::cout << "read last recv logTime failed from part " << std::endl;
+        close(fd);
+        return -1;
+    }
 
     close(fd);
 
     std::cout << "last recv log id " << lastRecvLogId << std::endl;
+    std::cout << "last recv log time " << lastRecvLogTime << std::endl;
 
     return 0;
 }

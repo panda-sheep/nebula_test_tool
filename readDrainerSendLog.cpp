@@ -6,7 +6,8 @@
 
 /**
  * @brief use to read send log file in drainer nebula wal
- * Only output lastSendLogId
+ * output lastSendLogId
+ *        lastSendLogTime
  *
  * @param argc
  * @param argv
@@ -36,9 +37,19 @@ int main(int argc, char *argv[]) {
         return -1;
     }
 
+    offset += sizeof(int64_t);
+    int64_t lastSendLogTime;
+    size = pread(fd, reinterpret_cast<char*>(&lastSendLogTime), sizeof(int64_t), offset);
+    if (size != sizeof(int64_t)) {
+        std::cout << "read last send logTime failed from part " << std::endl;
+        close(fd);
+        return -1;
+    }
+
     close(fd);
 
     std::cout << "last send log id " << lastSendLogId << std::endl;
+    std::cout << "last send log time " << lastSendLogTime << std::endl;
 
     return 0;
 }
